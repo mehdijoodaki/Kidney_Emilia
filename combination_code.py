@@ -27,6 +27,9 @@ ho = hm.run_harmony(data_mat, meta_data, vars_use)
 
 adata.obsm['X_pca_harmony'] = ho.Z_corr.T
 
+sc.pp.neighbors(adata,use_rep='X_pca_harmony')
+sc.tl.umap(adata)
+
 adata.write_h5ad('/data/scRNA/To_Mehdi/Emilia/new_data/combined_human_mice_v0.h5ad')
 
 model = train_gmvae(
@@ -47,6 +50,11 @@ gmmvae_wasserstein_distance(
     wass_dis=True,
     apply_gmm=True
 )
+
+adata.obsm['X_umap_har'] = adata.obsm['X_umap'].copy()
+sc.pp.neighbors(adata, use_rep='z_laten')
+sc.tl.umap(adata)
+adata.obsm['X_umap_z_laten'] = adata.obsm['X_umap'].copy()
 
 #adata.write_h5ad('/data/scRNA/To_Mehdi/pan_data/xei/filtered_shared_genes_snRNA_XENIUM_object/snRNA_xenium_4922_genes_with_harmony_vae.h5ad')
 np.save('/data/scRNA/To_Mehdi/Emilia/new_data/trained_models/snRNA_human_mice/EMD_20_combined.npy', adata.uns['EMD'])
