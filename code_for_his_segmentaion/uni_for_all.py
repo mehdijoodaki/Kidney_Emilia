@@ -23,43 +23,7 @@ local_dir = "/beegfs/data/CostaLab/SpatialHeart/Histology_Xenium_human/uni_weigh
 
 patch_size = (224, 224)
 stride = 224
-
-# same sample -> (well, position) mapping as the NIfTI script
-sample_map = {
-    "1991-15": ("18", "E4"),
-    "1992-15": ("18", "G1"),
-    "1993-15": ("18", "G2"),
-    "1995-15": ("18", "F2"),
-    "1996-15": ("18", "F4"),
-    "1997-15": ("18", "F3"),
-    "2000-15": ("18", "E1"),
-    "2001-15": ("18", "F1"),
-    "2003-15": ("18", "C3"),
-    "2004-15": ("18", "E3"),
-    "2005-15": ("18", "E2"),
-    "2006-15": ("18", "D4"),
-    "2009-15": ("18", "D3"),
-    "2010-15": ("18", "D2"),
-    "2013-15": ("18", "D1"),
-    "2016-15": ("18", "C1"),
-    "2017-15": ("18", "C2"),
-    "2018-15": ("18", "C4"),
-    "2020-15": ("18", "B4"),
-    "2021-15": ("18", "A2 + G3"),
-    "2022-15": ("18", "B3 + G4"),
-    "2024-15": ("18", "A1"),
-    "2025-15": ("18", "B2"),
-    "2027-15": ("18", "B1 + H1"),
-    "2030-15": ("18", "A4"),
-    "2031-15": ("18", "A3"),
-}
-
-#samples_to_process = [
- #   "1993-15", "1997-15","2004-15","2009-15","2017-15",
-  #  "2022-15", "2027-15", "2031-15"]
 # =================================
-
-samples_to_process = list(sample_map.keys())
 
 os.makedirs(output_base_folder, exist_ok=True)
 
@@ -93,72 +57,63 @@ transform = transforms.Compose(
     ]
 )
 
-# ---------- Step 1: Patch extraction for the 8 samples ----------
+# ---------- Step 1: Patch extraction for every HE file in the folder ----------
 failed_files = []
-not_found = []
 all_patch_metadata = []
 
-for sample_id in samples_to_process:
-    if sample_id not in sample_map:
-        print(f"WARNING: {sample_id} not in sample_map, skipping")
-        continue
+he_files = sorted([
+    f for f in glob.glob(os.path.join(he_folder, "*.ome.tif*"))
+    if os.path.basename(f).startswith("18") or True  # keep simple: just take every .ome.tif* file
+])
 
-    well, positions_raw = sample_map[sample_id]
-    positions = [p.strip() for p in positions_raw.split("+")]
+# if you only want files literally starting with "HE", use this instead:
+# he_files = sorted([
+#     f for f in glob.glob(os.path.join(he_folder, "HE*.ome.tif*"))
+#     if not os.path.basename(f).startswith(".")
+# ])
 
-    for pos in positions:
-        pattern = os.path.join(he_folder, f"{well}-{pos}.ome.tif*")
-        matches = [
-            f for f in glob.glob(pattern)
-            if not os.path.basename(f).startswith(".")
-        ]
+print(f"Found {len(he_files)} HE files in {he_folder}")
 
-        if not matches:
-            print(f"NOT FOUND: sample={sample_id}, pattern={well}-{pos}.ome.tif*")
-            not_found.append((sample_id, well, pos))
-            continue
+for filepath in he_files:
+    try:
+        wsi_image = tifffile.imread(filepath)
+        wsi_image = Image.fromarray(wsi_image)
 
-        filepath = matches[0]
+        slide_name = os.path.basename(filepath).replace(".ome.tif", "").replace(".tiff", "").replace(".tif", "")
+        slide_name = re.sub(r"[^\w\-]", "_", slide_name)
 
-        try:
-            wsi_image = tifffile.imread(filepath)
-            wsi_image = Image.fromarray(wsi_image)
+        slide_output_folder = os.path.join(output_base_folder, slide_name)
+        os.makedirs(slide_output_folder, exist_ok=True)
 
-            safe_sample_id = re.sub(r"[^\w\-]", "_", sample_id)
-            slide_name = f"{safe_sample_id}_{well}-{pos}"
-            slide_output_folder = os.path.join(output_base_folder, slide_name)
-            os.makedirs(slide_output_folder, exist_ok=True)
+        wsi_width, wsi_height = wsi_image.size
+        print(f"Processing {slide_name} - Size: {wsi_width}x{wsi_height}")
 
-            wsi_width, wsi_height = wsi_image.size
-            print(f"Processing {slide_name} - Size: {wsi_width}x{wsi_height}")
+        saved_patches = 0
+        for x in range(0, wsi_width - patch_size[0], stride):
+            for y in range(0, wsi_height - patch_size[1], stride):
+                patch = wsi_image.crop((x, y, x + patch_size[0], y + patch_size[1]))
 
-            saved_patches = 0
-            for x in range(0, wsi_width - patch_size[0], stride):
-                for y in range(0, wsi_height - patch_size[1], stride):
-                    patch = wsi_image.crop((x, y, x + patch_size[0], y + patch_size[1]))
+                patch_filename = f"patch_{saved_patches+1}.png"
+                patch_path = os.path.join(slide_output_folder, patch_filename)
+                patch.save(patch_path)
 
-                    patch_filename = f"patch_{saved_patches+1}.png"
-                    patch_path = os.path.join(slide_output_folder, patch_filename)
-                    patch.save(patch_path)
+                all_patch_metadata.append([slide_name, patch_filename, x, y, patch_path])
+                saved_patches += 1
 
-                    all_patch_metadata.append([sample_id, slide_name, patch_filename, x, y, patch_path])
-                    saved_patches += 1
+        print(f"Saved {saved_patches} patches for {slide_name}")
 
-            print(f"Saved {saved_patches} patches for {slide_name}")
-
-        except Exception as e:
-            print(f"Error processing {filepath}: {e}")
-            failed_files.append(filepath)
+    except Exception as e:
+        print(f"Error processing {filepath}: {e}")
+        failed_files.append(filepath)
 
 metadata_df = pd.DataFrame(
     all_patch_metadata,
-    columns=['Sample_ID', 'Slide_ID', 'Patch_ID', 'X', 'Y', 'Path']
+    columns=['Slide_ID', 'Patch_ID', 'X', 'Y', 'Path']
 )
 metadata_df.to_csv(metadata_file, index=False)
 
 print("Patch extraction done!")
 print("Failed files:", failed_files)
-print("Not found:", not_found)
 print(f"Metadata saved in {metadata_file}")
 
 metadata_df = pd.read_csv(metadata_file).reset_index(drop=True)
@@ -213,7 +168,7 @@ df_embeddings["Patch_ID"] = all_patch_ids
 
 df_embeddings['match_id'] = df_embeddings['Slide_ID'] + '_' + df_embeddings['Patch_ID']
 metadata_df['match_id'] = metadata_df['Slide_ID'] + '_' + metadata_df['Patch_ID']
-df_embeddings = df_embeddings.merge(metadata_df[['match_id', 'Sample_ID', 'X', 'Y', 'Patch_ID']], on='match_id')
+df_embeddings = df_embeddings.merge(metadata_df[['match_id', 'X', 'Y', 'Patch_ID']], on='match_id')
 df_embeddings.to_csv(embeddings_file, index=False)
 
 print(f"Final embeddings saved to {embeddings_file}")

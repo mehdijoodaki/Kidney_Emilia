@@ -42,11 +42,12 @@ sample_map = {
 }
 
 # only process the samples that actually exist in mice.obs['sample_ID']
-samples_to_process = [
-    "2031-15", "2022-15", "1993-15", "2018-15",
-    "2021-15", "2024-15", "2016-15", "1991-15",
-]
+#samples_to_process = [
+ #   "2031-15", "2022-15", "1993-15", "2018-15",
+    #"2021-15", "2024-15", "2016-15", "1991-15",
+#]
 # =================================
+samples_to_process = list(sample_map.keys())
 
 os.makedirs(output_base_folder, exist_ok=True)
 

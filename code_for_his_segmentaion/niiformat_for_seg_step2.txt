@@ -1,0 +1,5 @@
+cd /beegfs/data/CostaLab/SpatialHeart/Kidney
+
+
+RUN:
+nnUNetv2_predict -i /beegfs/data/CostaLab/spatial_kidney_kuppelab/Adenin/HE/output_nifti/ -o zaldeh_folder(output) -d 101 -c 2d -f 0
