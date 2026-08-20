@@ -1,0 +1,21 @@
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_csv from `anndata` is deprecated. Import anndata.io.read_csv instead.
+  warnings.warn(msg, FutureWarning)
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_text from `anndata` is deprecated. Import anndata.io.read_text instead.
+  warnings.warn(msg, FutureWarning)
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_excel from `anndata` is deprecated. Import anndata.io.read_excel instead.
+  warnings.warn(msg, FutureWarning)
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_mtx from `anndata` is deprecated. Import anndata.io.read_mtx instead.
+  warnings.warn(msg, FutureWarning)
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_loom from `anndata` is deprecated. Import anndata.io.read_loom instead.
+  warnings.warn(msg, FutureWarning)
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_hdf from `anndata` is deprecated. Import anndata.io.read_hdf instead.
+  warnings.warn(msg, FutureWarning)
+/home/mu061151/miniconda3/envs/PILOT-GM-VAE/lib/python3.11/site-packages/anndata/utils.py:434: FutureWarning: Importing read_umi_tools from `anndata` is deprecated. Import anndata.io.read_umi_tools instead.
+  warnings.warn(msg, FutureWarning)
+During startup - Warning messages:
+1: Setting LC_TIME failed, using "C" 
+2: Setting LC_MONETARY failed, using "C" 
+3: Setting LC_PAPER failed, using "C" 
+4: Setting LC_MEASUREMENT failed, using "C" 
+slurmstepd: error: *** JOB 318785 ON compute-node005 CANCELLED AT 2026-05-05T14:30:17 ***
+slurmstepd: error: *** JOB 318785 STEPD TERMINATED ON compute-node005 AT 2026-05-05T14:31:17 DUE TO JOB NOT ENDING WITH SIGNALS ***

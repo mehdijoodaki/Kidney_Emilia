@@ -1,0 +1,56 @@
+date
+Training the GMVAE model...
+(Epoch 1 / 50) Train_Loss: 110.600; Val_Loss: 80.014
+(Epoch 2 / 50) Train_Loss: 75.656; Val_Loss: 73.857
+(Epoch 3 / 50) Train_Loss: 71.389; Val_Loss: 71.104
+(Epoch 4 / 50) Train_Loss: 69.558; Val_Loss: 68.609
+(Epoch 5 / 50) Train_Loss: 68.519; Val_Loss: 67.935
+(Epoch 6 / 50) Train_Loss: 67.723; Val_Loss: 67.627
+(Epoch 7 / 50) Train_Loss: 67.187; Val_Loss: 66.493
+(Epoch 8 / 50) Train_Loss: 66.788; Val_Loss: 66.408
+(Epoch 9 / 50) Train_Loss: 66.428; Val_Loss: 66.997
+(Epoch 10 / 50) Train_Loss: 66.079; Val_Loss: 66.783
+(Epoch 11 / 50) Train_Loss: 65.784; Val_Loss: 66.088
+(Epoch 12 / 50) Train_Loss: 65.534; Val_Loss: 65.535
+(Epoch 13 / 50) Train_Loss: 65.356; Val_Loss: 65.360
+(Epoch 14 / 50) Train_Loss: 65.205; Val_Loss: 65.246
+(Epoch 15 / 50) Train_Loss: 65.029; Val_Loss: 65.137
+(Epoch 16 / 50) Train_Loss: 64.916; Val_Loss: 65.155
+(Epoch 17 / 50) Train_Loss: 64.791; Val_Loss: 66.570
+(Epoch 18 / 50) Train_Loss: 64.691; Val_Loss: 65.030
+(Epoch 19 / 50) Train_Loss: 64.579; Val_Loss: 64.496
+(Epoch 20 / 50) Train_Loss: 64.520; Val_Loss: 64.372
+(Epoch 21 / 50) Train_Loss: 64.469; Val_Loss: 64.774
+(Epoch 22 / 50) Train_Loss: 64.415; Val_Loss: 64.726
+(Epoch 23 / 50) Train_Loss: 64.403; Val_Loss: 64.820
+(Epoch 24 / 50) Train_Loss: 64.359; Val_Loss: 64.532
+(Epoch 25 / 50) Train_Loss: 64.283; Val_Loss: 64.923
+(Epoch 26 / 50) Train_Loss: 64.240; Val_Loss: 64.209
+(Epoch 27 / 50) Train_Loss: 64.210; Val_Loss: 64.402
+(Epoch 28 / 50) Train_Loss: 64.140; Val_Loss: 64.697
+(Epoch 29 / 50) Train_Loss: 64.144; Val_Loss: 63.817
+(Epoch 30 / 50) Train_Loss: 64.088; Val_Loss: 64.174
+(Epoch 31 / 50) Train_Loss: 64.088; Val_Loss: 64.092
+(Epoch 32 / 50) Train_Loss: 64.049; Val_Loss: 63.952
+(Epoch 33 / 50) Train_Loss: 64.016; Val_Loss: 64.932
+(Epoch 34 / 50) Train_Loss: 63.978; Val_Loss: 64.331
+(Epoch 35 / 50) Train_Loss: 64.015; Val_Loss: 63.963
+(Epoch 36 / 50) Train_Loss: 63.975; Val_Loss: 63.974
+(Epoch 37 / 50) Train_Loss: 63.951; Val_Loss: 63.941
+(Epoch 38 / 50) Train_Loss: 63.910; Val_Loss: 63.780
+(Epoch 39 / 50) Train_Loss: 63.880; Val_Loss: 63.607
+(Epoch 40 / 50) Train_Loss: 63.857; Val_Loss: 63.890
+(Epoch 41 / 50) Train_Loss: 63.898; Val_Loss: 64.330
+(Epoch 42 / 50) Train_Loss: 63.859; Val_Loss: 64.016
+(Epoch 43 / 50) Train_Loss: 63.803; Val_Loss: 64.133
+(Epoch 44 / 50) Train_Loss: 63.829; Val_Loss: 63.729
+(Epoch 45 / 50) Train_Loss: 63.793; Val_Loss: 64.370
+(Epoch 46 / 50) Train_Loss: 63.802; Val_Loss: 64.360
+(Epoch 47 / 50) Train_Loss: 63.785; Val_Loss: 63.985
+(Epoch 48 / 50) Train_Loss: 63.778; Val_Loss: 63.723
+(Epoch 49 / 50) Train_Loss: 63.869; Val_Loss: 64.662
+(Epoch 50 / 50) Train_Loss: 63.755; Val_Loss: 63.989
+Saved trained model weights to ./trained_models/snRNA_human_mice/gmvae_weights.pth.
+Performing inference...
+Done!
+date
