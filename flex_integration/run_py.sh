@@ -17,5 +17,5 @@ conda activate PILOT-GM-VAE
 echo date
 
 python combination_code.py
-#python integration.py
+
 echo date

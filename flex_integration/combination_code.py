@@ -9,14 +9,8 @@ import harmonypy as hm
 import numpy as np
 
 
-file_path='/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/combined_Rat_Human_Mouse_Embryo.h5ad'
+file_path='/data/scRNA/To_Mehdi/Emilia/flex/Integration_mouse_human.h5ad'
 adata=sc.read_h5ad(file_path)
-#adata = adata[
- #   ~(
-  #      (adata.obs["cell_subtype"] == "Cell cycle LV-CMs") &
-   #     (adata.obs["Dataset"] == "embryo")
-    #)
-#].copy()
 
 adata.X=adata.layers['counts'].copy()
 
@@ -28,8 +22,8 @@ sc.tl.pca(adata)
 sc.pp.neighbors(adata)
 sc.tl.umap(adata)
 adata.obsm['X_umap_X_pca'] = adata.obsm['X_umap'].copy()
-np.save('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/Cell_hint_all_data/PILOT2/X_umap_X_pca.npy', adata.obsm['X_umap_X_pca'])
-np.save('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/Cell_hint_all_data/PILOT2/X_pca.npy', adata.obsm['X_pca'])
+np.save('/data/scRNA/To_Mehdi/Emilia/flex/pilot2_embeddings/X_umap_X_pca.npy', adata.obsm['X_umap_X_pca'])
+np.save('/data/scRNA/To_Mehdi/Emilia/flex/pilot2_embeddings/X_pca.npy', adata.obsm['X_pca'])
 
 data_mat = adata.obsm['X_pca']  # PCA embeddings
 meta_data = adata.obs[['Dataset']]  # Metadata, e.g., 'batch'
@@ -45,9 +39,9 @@ adata.obsm['X_pca_harmony'] = ho.Z_corr.T
 sc.pp.neighbors(adata,use_rep='X_pca_harmony')
 sc.tl.umap(adata)
 adata.obsm['X_umap_X_pca_harmony'] = adata.obsm['X_umap'].copy()
-np.save('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/Cell_hint_all_data/PILOT2/X_umap_X_pca_harmony.npy', adata.obsm['X_umap_X_pca_harmony'])
-np.save('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/Cell_hint_all_data/PILOT2/X_pca_harmony.npy', adata.obsm['X_pca_harmony'])
-#adata.write_h5ad('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/combined_human_pilot2.h5ad')
+np.save('/data/scRNA/To_Mehdi/Emilia/flex/pilot2_embeddings/X_umap_X_pca_harmony.npy', adata.obsm['X_umap_X_pca_harmony'])
+np.save('/data/scRNA/To_Mehdi/Emilia/flex/pilot2_embeddings/X_pca_harmony.npy', adata.obsm['X_pca_harmony'])
+
 
 model = train_gmvae(
     adata=adata,
@@ -74,14 +68,10 @@ sc.pp.neighbors(adata, use_rep='z_laten')
 sc.tl.umap(adata)
 adata.obsm['X_umap_z_laten'] = adata.obsm['X_umap'].copy()
 
-np.save('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/Cell_hint_all_data/PILOT2/X_umap_z_laten.npy', adata.obsm['X_umap_z_laten'])
-np.save('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/Cell_hint_all_data/PILOT2/z_laten.npy', adata.obsm['z_laten'])
+np.save('/data/scRNA/To_Mehdi/Emilia/flex/pilot2_embeddings/X_umap_z_laten.npy', adata.obsm['X_umap_z_laten'])
+np.save('/data/scRNA/To_Mehdi/Emilia/flex/pilot2_embeddings/z_laten.npy', adata.obsm['z_laten'])
 
-#adata.write_h5ad('/data/scRNA/To_Mehdi/pan_data/rebuttal_science/2026-04-10/combined_Rat_Human_Mouse_Embryo.h5ad')
 
-#np.save('/data/mu0611151/data/mask/Paul/Github/Spatial_Heart/Integration_all_modalities/PILOT_2/PILOT_GM/trained_models/EMD_20_combined.npy', adata.uns['EMD'])
-#np.save("/data/mu0611151/data/mask/Paul/Github/Spatial_Heart/Integration_all_modalities/PILOT_2/PILOT_GM/trained_models/z_laten_20_combined.npy", adata.obsm['z_laten'])
-#np.save("/data/mu0611151/data/mask/Paul/Github/Spatial_Heart/Integration_all_modalities/PILOT_2/PILOT_GM/trained_models/component_assignment_20_combined.npy", adata.obs['component_assignment'].values)
 
 
 
